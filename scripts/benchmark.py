@@ -47,16 +47,17 @@ def get_inference_pipeline(precision, backend):
             if device.type == "cpu"
             else "CUDAExecutionProvider",
             torch_dtype=torch.float32 if precision == "single" else torch.float16,
+            safety_checker=None,
         )
 
     # Disable safety
-    disable_safety = True
-    if disable_safety:
+    # disable_safety = True
+    # if disable_safety:
 
-        def null_safety(images, **kwargs):
-            return images, False
+    #     def null_safety(images, **kwargs):
+    #         return images, False
 
-        pipe.safety_checker = null_safety
+    #     pipe.safety_checker = null_safety
     return pipe
 
 
@@ -178,7 +179,7 @@ def run_benchmark_grid(grid, n_repeats, num_inference_steps, csv_fpath):
             "device",
             "precision",
             "autocast",
-            "xformers"
+            "xformers",
             "runtime",
             "n_samples",
             "latency",
